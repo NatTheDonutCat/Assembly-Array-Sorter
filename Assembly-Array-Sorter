@@ -1,0 +1,86 @@
+//Natalie Owen
+//Pure Assembly Array Sorter
+//12/2/2021
+
+
+program SelectionSort;
+
+#include( "stdlib.hhf" )
+
+
+const	NumElements	:= 18;                    // Array Size
+                                            // Array Elements
+static
+		DataToSort: uns32 [NumElements] := [99, 15, 69, 52, 12, 13, 27, 83, 32,
+                                                    59, 42, 75, 66, 73, 25, 41, 36, 22];
+		LastIndex:	uns32;
+		Index:		  uns32;
+		temp:		    uns32;
+						
+						
+begin SelectionSort;
+                stdout.put (nl, "*************************************************");
+                stdout.put (nl, "* Natalie Owen - Assembly Language Array Sorter *");
+                stdout.put (nl, "*************************************************", nl);
+                stdout.put (nl, "Standard Sort, Number of Array Elements: ", NumElements, nl);
+                stdout.put (nl, "Original Array Elements:", nl);
+
+                MOV (0, EAX);
+mainFor:	 	    CMP (EAX, NumElements);						//print initial array
+				        JGE Done;
+				
+                stdout.puti32Size(DataToSort [EAX * 4], 4, ' ');
+                INC (EAX);
+                JMP mainFor;
+Done:	
+
+                stdout.put (nl, nl,"Sorting Array Elements:");
+
+                MOV (NumElements, LastIndex); 
+                DEC (LastIndex);							    //set LastIndex to samplesize - 1
+
+mainWhile:		  CMP (LastIndex, 0);						  	//flow through array from right to left
+                JBE	Done2;
+
+                MOV (0, Index);
+                MOV (0, EAX);
+
+For2:			      CMP (EAX, LastIndex);						  //loop to find index of max of unsorted data
+                JA  For2Done;
+
+                MOV	(Index, EBX);
+                MOV (DataToSort[EBX*4], ECX);
+
+              if (DataToSort[EAX*4] > ECX) then
+                MOV (EAX, Index);
+              endif;
+
+                INC (EAX);
+                JMP For2;
+For2Done:			
+                MOV (LastIndex, ECX);						//Swap maximum with last element of unsorted data
+                MOV (Index, EBX);
+                MOV (DataToSort[ECX*4], temp);
+                MOV (DataToSort[EBX*4], DataToSort[ECX*4]);
+                MOV (temp, DataToSort[EBX*4]);
+
+                DEC (LastIndex);
+                stdout.newln();	
+
+                MOV (0, EAX);
+For3:			      CMP (EAX, NumElements);						//print array
+                JGE For3Done;
+
+                stdout.puti32Size(DataToSort [EAX * 4], 4, ' ');
+                INC (EAX);
+                JMP For3;		
+For3Done:
+				        JMP mainWhile;								//repeat while loop
+Done2:
+                stdout.newln();
+                stdout.put (nl, "*********************************************");
+                stdout.put (nl, "* Natalie Owen - Pure Assembly Array Sorter *");
+                stdout.put (nl, "*********************************************");
+
+end SelectionSort;
+				
