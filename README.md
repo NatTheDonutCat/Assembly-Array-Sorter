@@ -1,2 +1,2 @@
 # Assembly-Array-Sorter
-Assembly Language Array Sorter
+Assembly Language number array sorter
